@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pig Latin translator</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<script>
+  phrase = prompt("Enter a phrase");
+  document.write("You entered - ", phrase);
+  document.write("<br><br>");
+
+    if (!phrase || phrase.trim() == "") {
+        document.write("Please make a valid entry");
+        } 
+        else {
+          let text = phrase.trim().split(" ");
+          
+            if (text.length == 1 && text[0].length == 1) {
+              document.write("Singular letter entry is not allowed");
+                }  // checks for no word entry or singular letter entry //
+              
+            else {
+              let vowel = "aeiou" + "AEIOU";
+              let plText = [];
+
+                for (let i = 0; i < text.length; i++) {
+                  let pl = text[i];
+                  let letterOne = pl.charAt(0);
+                  let letterTwo = pl.charAt(1);
+
+                  if (vowel.includes(letterOne)) {
+                    plText.push(pl + "way");
+                    } // vowels //
+                    
+                  else if (vowel.includes(letterOne) & vowel.includes(letterTwo)) {
+                    plText.push(pl.slice(2) + letterOne + letterTwo + "ay");
+                    } // two const //
+                  
+                  else {
+                    plText.push(pl.slice(1) + letterOne + "ay");
+                    } // one const //
+                  
+                  }
+
+            let plOutput = plText.join(" ");
+            document.write("Pig latin translation: " + plOutput);
+              // display
+                }
+              }
+</script>
+
+</body>
+</html>
