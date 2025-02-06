@@ -7,11 +7,44 @@
 </head>
 <body>
 
+    <h2>Student Grades</h2>
+
+    <div id="student-output"></div>
+
+    <div id="results-output"></div>
+
 <script>
     const grades = "jim|25, sue|32, mary|34, ann|22, ted|28, frank|15, lisa|19, mike|30, ahn|26, vishaya|27";
 
-    // Your code here
-
+    // split the grade string into an array of student entries, display student names and scores
+    const studentEntries = grades.split(" , ");
+    const studentOutput = document.getElementById('student-output');
+    studentEntries.forEach(entry => {
+        const [name, score] = entry.split('|');
+        studentOutput.innerHTML += `<p>${name} scored ${score}</p>`;
+    }
+    );
+    // split the grade string into an array of student entries, display student names and scores
+    const graderEntries = grades.split(', ');
+    const graderOutput = document.getElementById('grader-output');
+    graderEntries.forEach(entry => {
+        const [name, score] = entry.split('|');
+        graderOutput.innerHTML += `<p>${name} scored ${score}</p>`;
+    }
+    );
+    // calculate the total number of students, lowest, highest, and average scores
+    const totalStudents = studentEntries.length;
+    const lowestScore = Math.min(...studentEntries.map(entry => parseInt(entry.split('|')[1])));
+    const highestScore = Math.max(...studentEntries.map(entry => parseInt(entry.split('|')[1])));
+    const averageScore = studentEntries.reduce((sum, entry) => sum + parseInt(entry.split('|') [1]),0)    
+    // display the results
+    const resultsOutput = document.getElementById("results-output");
+    resultsOutput.innerHTML = `<p>Total students: ${totalStudents}</p>
+                               <p>Lowest score: ${lowestScore}</p>
+                               <p>Highest score: ${highestScore}</p>
+                               <p>Average score: ${averageScore}</p>
+                             `;
+    
 </script>
 
 </body>
