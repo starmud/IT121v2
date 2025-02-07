@@ -18,10 +18,12 @@
 
     // split students into an array 
     const studentInput = grades.split(", ");
+    // capitalization of first letter
+    const studentCap = studentInput.map(name => name.charAt(0).toUpperCase() + name.slice(1))
     const studentOutput = document.getElementById("student-output");
-    studentInput.forEach(entry => {
+    studentCap.forEach(entry => {
         const [name, score] = entry.split('|');
-        studentOutput.innerHTML += `<p>${name} scored ${score}</p>`;
+        studentOutput.innerHTML += `<p>${name} <b>scored</b> ${score}</p>`;
     }
     );
     
@@ -29,7 +31,7 @@
     const totalStudents = studentInput.length;
     const lowScore = Math.min(...studentInput.map(entry => parseInt(entry.split('|')[1])));
     const highScore = Math.max(...studentInput.map(entry => parseInt(entry.split('|')[1])));
-    const averageScore = studentInput.reduce((sum, entry) => sum + parseInt(entry.split('|')[1]), 0) / totalStudents; 
+    const averageScore = studentInput.reduce((sum, entry) => sum + parseInt(entry.split('|')[1]),0) / totalStudents;
     
     // display the results
     const resultsOutput = document.getElementById("results-output");
