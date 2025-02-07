@@ -13,32 +13,30 @@
 
     <div id="results-output"></div>
 
-    <div id="grader-output"></div>
-
 <script>
     const grades = "jim|25, sue|32, mary|34, ann|22, ted|28, frank|15, lisa|19, mike|30, ahn|26, vishaya|27";
 
     // split students into an array 
-    const studentEntries = grades.split(", ");
+    const studentInput = grades.split(", ");
     const studentOutput = document.getElementById("student-output");
-    studentEntries.forEach(entry => {
+    studentInput.forEach(entry => {
         const [name, score] = entry.split('|');
         studentOutput.innerHTML += `<p>${name} scored ${score}</p>`;
     }
     );
     
     // total number of students, lowest, highest and average scores
-    const totalStudents = studentEntries.length;
-    const lowestScore = Math.min(...studentEntries.map(entry => parseInt(entry.split('|')[1])));
-    const highestScore = Math.max(...studentEntries.map(entry => parseInt(entry.split('|')[1])));
-    const averageScore = studentEntries.reduce((sum, entry) => sum + parseInt(entry.split('|')[1]), 0) / totalStudents; 
+    const totalStudents = studentInput.length;
+    const lowScore = Math.min(...studentInput.map(entry => parseInt(entry.split('|')[1])));
+    const highScore = Math.max(...studentInput.map(entry => parseInt(entry.split('|')[1])));
+    const averageScore = studentInput.reduce((sum, entry) => sum + parseInt(entry.split('|')[1]), 0) / totalStudents; 
     
     // display the results
     const resultsOutput = document.getElementById("results-output");
-    resultsOutput.innerHTML = `<p>Total students: ${totalStudents}</p>
-                               <p>Lowest score: ${lowestScore}</p>
-                               <p>Highest score: ${highestScore}</p>
-                               <p>Average score: ${averageScore}</p>
+    resultsOutput.innerHTML = `<p><b>Total students</b> ${totalStudents}</p>
+                               <p><b>Lowest score</b> ${lowScore}</p>
+                               <p><b>Highest score</b> ${highScore}</p>
+                               <p><b>Average score</b> ${averageScore}</p>
                              `;
     
 </script>

@@ -4,6 +4,16 @@ html {
 }
 
 body {
-    background: beige;
+    margin: 3%;
+    background: skyblue;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+p {
+  text-align: center;
 }
