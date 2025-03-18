@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Card Dealer</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<h1>Robo Card Dealer</h1>
+
+<button onClick="drawHand()">Draw Hand</button>
+  <ul id="hand"></ul>
+
+<script>
+  class Card {
+    constructor(suit, value) {
+      this.suit = suit;
+      this.value = value;
+    }
+
+    getCard() {
+      const faceCards = {11: "Jack", 12: "Queen", 13: "King", 14: "Ace"};
+      return faceCards[this.value] || this.value;
+    }
+  }
+
+  const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+  const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+
+  const deck = [];
+  suits.forEach(suit => {
+    values.forEach(value => {
+      deck.push(new Card(suit, value));
+    });
+  })
+
+  function drawHand() {
+    let hand = [];
+    let usedCards = new Set();
+
+    while (hand.length < 5) {
+      let randomIndex = Math.floor(Math.random() * 52);
+
+      if (!usedCards.has(randomIndex)) {
+        usedCards.add(randomIndex);
+        hand.push(deck[randomIndex]);
+      }
+    }
+    displayHand(hand);
+  }
+
+  function displayHand(hand) {
+    $("#hand").empty();
+    hand.forEach(card => {
+      $("#hand").append(`<li>${card.getCard()} of ${card.suit}</li>`);
+    });       
+  }
+  
+</script>
+</body>
+</html>
