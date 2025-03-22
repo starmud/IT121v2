@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Day Weather Forecast</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        #forecast {
+            margin-top: 20px;
+        }
+        .forecast-day {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        img {
+            width: 50px;
+        }
+    </style>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <h1>Weather Forecast</h1>
+    <input type="text" id="city" placeholder="Enter city name">
+    <button id="getForecast">Get Forecast</button>
+    <p id="message"></p>
+    <div id="forecast"></div>
+
+    <script>
+        const apiKey = '3d2bc32dba9c7cc686bb377d915d6cc4';
+
+        $(document).ready(function () {
+            $('#getForecast').click(async function () {
+                const city = $('#city').val().trim();
+
+                // Validate city input
+                if (!city || !isNaN(city)) {
+                    $('#message').text('Please enter a valid city name.');
+                    $('#forecast').empty();
+                    return;
+                }
+
+                $('#message').text('Fetching weather data...');
+
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`);
+                    const data = await response.json();
+
+                    if (response.ok && data.list) {
+                        displayForecast(data);
+                    } else {
+                        $('#message').text('Unable to retrieve forecast. Please check the city name and try again.');
+                        $('#forecast').empty();
+                    }
+                } catch (error) {
+                    $('#message').text('An error occurred while fetching data. Please try again later.');
+                    $('#forecast').empty();
+                }
+            });
+        });
+
+        function displayForecast(data) {
+            $('#message').text('');
+            $('#forecast').empty();
+
+            const dailyForecasts = {};
+
+            // Extract daily forecasts (every 3 hours, so we pick one per day)
+            data.list.forEach(entry => {
+                const date = entry.dt_txt.split(' ')[0]; // Extract date part only
+                if (!dailyForecasts[date]) {
+                    dailyForecasts[date] = entry;
+                }
+            });
+
+            // Render forecast data
+            Object.values(dailyForecasts).slice(0, 5).forEach(day => {
+                const forecastHtml = `
+                    <div class="forecast-day">
+                        <h3>${day.dt_txt.split(' ')[0]}</h3>
+                        <p><strong>Min Temp:</strong> ${day.main.temp_min}°F</p>
+                        <p><strong>Max Temp:</strong> ${day.main.temp_max}°F</p>
+                        <p><strong>Humidity:</strong> ${day.main.humidity}%</p>
+                        <p><strong>Weather:</strong> ${day.weather[0].description}</p>
+                        <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="Weather Icon">
+                    </div>
+                `;
+                $('#forecast').append(forecastHtml);
+            });
+        }
+    </script>
+
+</body>
+</html>

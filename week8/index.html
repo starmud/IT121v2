@@ -7,12 +7,12 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
 <body>
-<h3/>Daily Weather Forecast</h3>
+<h2>Daily Weather Forecast</h2>
 <hr>
-<form id="testform">
-City: <input type="text" name="city">
+<form id="testForm">
+  City: <input type="text" id="city" name="city">
   State:
-  <select name="state">
+  <select id="state" name="state">
       <option value="AL">Alabama</option>
       <option value="AK">Alaska</option>
       <option value="AZ">Arizona</option>
@@ -69,32 +69,87 @@ City: <input type="text" name="city">
       <option value="WY">Wyoming</option>
   </select>
 </form>
-<button>submit</button>
+<button id="submit">Submit</button>
 <div id="forecast"></div>
 
 <script>
-// change to your API
+  
 let API_KEY = "3d2bc32dba9c7cc686bb377d915d6cc4";
+  
+  const kelvinToF = (value) => {
+    let fahrenheit = (((Number(value) - 273.15)*9)/5) + 32;
+    return fahrenheit.toFixed(2);
+  }
 
-// daily forecast API - https://openweathermap.org/forecast16
-// geocoding API - https://openweathermap.org/api/geocoding-api
+$('#submit').on('click', async function (e) {
+    e.preventDefault();
+  
+    let city = $('#city').val().trim();
+    let state = $('#state').val();
+  
+  if (!city || !isNaN(city)) {
+      $('#forecast').html('<p>Please enter a valid city and state.</p>');
+      return;
+    }
 
-// NOTE - api docs incorrectly show examples using http instead of https
+    try {
+      let geoInfo = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&limit=1&appid=${API_KEY}`);
+      let geoData = await geoInfo.json();
+    
+      if (!geoData.length) {
+        $('#forecast').html('<p>Unable to retrieve forecast. Please check the city name & try again (error 1)</p>');
+        $("button").disabled = true;
+        return;
+      }
+    
+      let {lat, lon} = geoData[0];
+      let weatherInfo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+      let weatherData = await weatherInfo.json();
 
-const kelvinToF = (value) => {
-  var fahrenheit = (((Number(value) - 273.15)*9)/5) + 32;
-  return fahrenheit.toFixed(2);
-}
-
-
-$('button').on('click', (e) => {
-
-// your code here
-
-// disable button to prevent double-submit
-$("button").disabled = true;
-
+      if (!weatherData.list && weatherData.list.length == 0) {
+        $('#forecast').html('<p>Unable to retrieve forecast. Please check the city name & try again (error 2)</p>');
+        $("button").disabled = true;
+        return;
+      }
+    
+      displayForecast(weatherData);
+      
+    }
+  catch(error) {
+    $('#forecast').html('<p>An error occurred. Please try again (error 3).</p>');
+  }
+  finally {
+    $("button").disabled = true;
+  }
 });
+
+function displayForecast(data) {
+    let forecastHtml = "<h3>5-Day Forecast</h3><table border='1'><tr><th>Date</th><th>Min Temp (°F)</th><th>Max Temp (°F)</th><th>Humidity</th><th>Weather</th><th>View</th></tr>";
+  
+    let dailyData = {};
+  // pull forecasts
+    data.list.forEach((item) => {
+      let date = item.dt_txt.split(" ")[0]; // pull date
+      if (!dailyData[date]) {
+      dailyData[date] = item;
+    }
+  });
+
+  Object.values(dailyData).slice(0, 5).forEach((day) => {
+      let date = new Date(day.dt_txt).toLocaleDateString();
+      let minTemp = kelvinToF(day.main.temp_min);
+      let maxTemp = kelvinToF(day.main.temp_max);
+      let humidity = day.main.humidity;
+      let description = day.weather[0].description;
+      let icon = `<img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${description}">`;
+
+      forecastHtml += `<tr><td>${date}</td><td>${minTemp}</td><td>${maxTemp}</td><td>${humidity}%</td><td>${description}</td><td>${icon}</td></tr>`;
+  });
+
+  forecastHtml += '</table>';
+  $('#forecast').html(forecastHtml);
+  
+}
 
 </script>
 </body>

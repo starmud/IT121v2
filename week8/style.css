@@ -5,11 +5,27 @@ html {
 
 button, buttons {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding: 5px 5px 5px 5px;
+  margin-top: 10px;
+  padding: 1%;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
-  margin: 15px 2px;
+  font-style: italic;
+  font-size: 13px;
+}
+
+#city, #state {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
+  font-size: 13px;
+}
+
+#testForm {
+  font-style:italic;
+  font-weight: 10;
+}
+
+select option {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
@@ -18,10 +34,22 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+hr {
+  margin-bottom: 2%;
+  outline-style: solid 3px;
+  color: #d87c63;
+}
+
+h2 {
+  color: #1d1d1d;
+}
+
 h3 {
-    text-align: center;
+  color: #1d1d1d;
+  font-style: italic;
 }
 
 p {
-  text-align: center;
+  color: #da3738;
+  font-style: italic;
 }
