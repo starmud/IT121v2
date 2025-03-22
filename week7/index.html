@@ -4,20 +4,20 @@
                 src="https://code.jquery.com/jquery-3.7.1.min.js"
                 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
                 crossorigin="anonymous"></script>
-        <link href="style.css" rel="stylesheet" type="text/css" />
+          <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <style>
         .over {
-            background-color: orange;
+            background-color: lightslategray;
         }
         .selected {
-            background-color: green;
+            background-color: lightcoral;
         }
     </style>
 
     <body>
         <div id="buttons"></div>
-        <table border='1'>
+        <table border='1' id="potterTable">
             <tr>
                 <th>name</th>
                 <th>role</th>
@@ -26,7 +26,7 @@
                 <th>alignment</th>
             </tr>
         </table>
-        <button>reset</button>
+        <button id="reset">Reset</button>
     </body>
 
         <script>
@@ -35,31 +35,65 @@
         {name:"Albus Dumbledore", role:"staff", house:"Gryffindor",gender:"m",alignment:"good"},    
         {name:"Nymphadora Tonks", role:"", house:"Hufflepuff",gender:"f",alignment:"good"},    
         {name:"Ron Weasley", role:"student", house:"Gryffindor",gender:"m",alignment:"good"},    
-        {name:"Ginny Weasley", role:"student", house:"Gryffindor",gender:"f",alignment:"good"},    
+        {name:"Ginny Weasley", role:"student", house:"Gryffindor",gender:"f",alignment:"good"},   
+        {name:"Rubeus Hagrid", role:"staff", house:"Hufflepuff",gender:"m",alignment:"good"},
+        {name:"Fiius Flitwick", role:"staff", house:"Ravenclaw",gender:"m",alignment:"good"},
         {name:"Hermione Granger", role:"student", house:"Gryffindor",gender:"f",alignment:"good"},    
         {name:"Mad-eye Moody", role:"staff", house:"",gender:"m",alignment:"good"},    
-        {name:"Prof McGonagall", role:"staff", house:"Gryffindor",gender:"f",alignment:"good"},    
+        {name:"Minerva McGonagall", role:"staff", house:"Gryffindor",gender:"f",alignment:"good"},    
         {name:"Harry Potter", role:"student", house:"Gryffindor",gender:"m",alignment:"good"},    
-        {name:"Draco Malfoy", role:"student", house:"Slytherin",gender:"m",alignment:"evil"},    
-        {name:"Hagrid", role:"staff", house:"Gryffindor",gender:"m",alignment:"good"},    
+        {name:"Draco Malfoy", role:"student", house:"Slytherin",gender:"m",alignment:"evil"},      
         {name:"Luna Lovegood", role:"student", house:"Ravenclaw",gender:"f",alignment:"good"},    
         {name:"Voldemort", role:"", house:"Slytherin",gender:"m",alignment:"evil"},    
-        {name:"Bellatrix Lestrange", role:"", house:"Slytherin",gender:"f",alignment:"evil"},           
-        {name:"Severus Snape", role:"staff", house:"Slytherin",gender:"m",alignment:"?"}
+        {name:"Bellatrix Lestrange", role:"", house:"Slytherin",gender:"f",alignment:"evil"}, 
+        {name:"Dolores Umbridge", role:"staff", house:"Slytherin",gender:"f",alignment:"evil"},
+         {name:"Peter Pettigrew", role:"alumni", house:"Slytherin",gender:"m",alignment:"evil"},
+        {name:"Severus Snape", role:"staff", house:"Slytherin",gender:"m",alignment:"?"},
+        {name:"Cedric Diggory", role:"student", house:"Hufflepuff",gender:"m",alignment:"good"},
+        {name:"Pomona Sprout", role:"staff", house:"Hufflepuff",gender:"f",alignment:"good"},
+        {name:"Newt Scamander", role:"alumni", house:"Hufflepuff",gender:"m",alignment:"good"},
+        {name:"Cho Chang", role:"student", house:"Ravenclaw",gender:"m",alignment:"good"},
+        {name:"Padma Patil", role:"student", house:"Ravenclaw",gender:"f",alignment:"good"},
+        {name:"Tom Riddle", role:"alumni", house:"Slytherin",gender:"m",alignment:"evil"},
+        {name:"Neville Longbottom", role:"student", house:"Gryffindor",gender:"m",alignment:"good"}, 
+        {name:"Remus Lupin", role:"alumni", house:"Gryffindor",gender:"werewolf",alignment:"?"}, 
+        {name:"Ginny Weasley", role:"student", house:"Gryffindor",gender:"f",alignment:"good"}, 
         ];
 
         $(document).ready(function(){
 
-        /*
-        - add a button for each 'house' value
-        - add table row for each character
-        - set visible rows to alternating background color
+            let table = $("#potterTable");
+            let buttonBox = $("#buttons");
+            let houses = new Set();
 
-        - add click handler to show only rows matching selected 'house'. Enable buttons to call this handler. 
+            characters.forEach(character => {
+                let row = $("<tr>")
+                    .append($("<td>").text(character.name))
+                    .append($("<td>").text(character.role))
+                    .append($("<td>").text(character.house))
+                    .append($("<td>").text(character.gender))
+                    .append($("<td>").text(character.alignment));
+                table.append(row);
 
-        - add click handler to reset table 
-        */
+                if (character.house) {
+                    houses.add(character.house);
+                }
+            });
 
+            houses.forEach(house => {
+                let button = $("<button>").text(house).click(function() {
+                    $("#potterTable tr").not(":first").addClass("over");
+                    $("#potterTable tr").filter(function() {
+                        return $(this).find("td:nth-child(3)").text() == house;
+                    })
+                    .removeClass("over");
+                });
+                buttonBox.append(button);
+            });
+
+            $("#reset").click(function() {
+                $("#potterTable tr").removeClass("over");
+            });
         });
 
         </script>
