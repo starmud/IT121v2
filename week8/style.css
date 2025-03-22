@@ -3,15 +3,23 @@ html {
   width: 100%;
 }
 
+button, buttons {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 5px 5px 5px 5px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 15px 2px;
+}
+
 body {
     margin: 3%;
     background: skyblue;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-h2 {
+h3 {
     text-align: center;
-    text-decoration: underline;
 }
 
 p {
