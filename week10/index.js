@@ -38,9 +38,6 @@ http.createServer((req,res) => {
             });
             break;
         case '/about':
-           /* res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('About page');
-            break; */
             fs.readFile("about.html", (err, data) => {
                 if (err) return console.error(err);
                 res.writeHead(200, {'Content-Type': 'text/html'});
