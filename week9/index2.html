@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw me a picture</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let time = 10;
+
+        function drawPattern() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const column = 10;
+            const rows = 10;
+            const cellWidth = canvas.width / column;
+            const cellHeight = canvas.height / rows;
+
+            for (let i = 0; i < column; i++) {
+                for (let d = 0; d < rows; d++) {
+                    const x = i * cellWidth + cellWidth / 2;
+                    const y = d * cellHeight + cellHeight / 2;
+
+                    const size = Math.abs(Math.sin(time + (i + d) * 0.2)) * 20 + 10;
+
+            // Diamonds
+                    ctx.beginPath();
+                    ctx.moveTo(x, y - size);
+                    ctx.lineTo(x + size, y);
+                    ctx.lineTo(x, y + size);
+                    ctx.lineTo(x - size, y);
+                    ctx.closePath();
+                    ctx.fillStyle = `hsl(${(time * 20) % 360}, 80%, 60%)`;
+                    ctx.fill();
+                    ctx.strokeStyle = "whitesmoke";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+            time += 0.01;
+            requestAnimationFrame(drawPattern);
+        }
+        drawPattern();
+    </script> 
+</body>
+</html>
