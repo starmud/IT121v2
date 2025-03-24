@@ -1,0 +1,18 @@
+{
+    "name": "starmud",
+    "version": "1.0.0",
+    "description": "A MUD game",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "David Charlebois",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/starmud/IT121v2/tree/classwork"
+    }
+  }
+  
