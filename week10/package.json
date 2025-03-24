@@ -1,18 +1,17 @@
 {
-    "name": "starmud",
-    "version": "1.0.0",
-    "description": "A MUD game",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "keywords": [],
-    "author": "David Charlebois",
-    "license": "ISC",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/starmud/IT121v2/tree/classwork"
-    }
+  "name": "starmud",
+  "version": "1.0.0",
+  "description": "A MUD game",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "David Charlebois",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starmud/IT121v2.git#classwork"
   }
-  
+}
